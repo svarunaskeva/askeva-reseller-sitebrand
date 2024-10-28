@@ -1,12 +1,17 @@
+const dotenv = require('dotenv')
 const fs = require('fs').promises;
 const { exec } = require('child_process');
 const path = require('path');
+const envFile = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envFile });
 
 const nginxConfigDir = process.env.NGINX_CONFIG_DIR;
 const nginxEnabledDir = process.env.NGINX_ENABLED_DIR;
 const frontendRoot = process.env.NGINX_FRONTEND_ROOT;
 
 const createFrontendConfig = async (reseller, frontendDomain) => {
+  console.log(nginxConfigDir);
+  
   const frontendConf = path.join(nginxConfigDir, `${reseller}-react`);
 
   const frontendConfigContent = `
