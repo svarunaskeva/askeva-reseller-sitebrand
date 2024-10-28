@@ -1,0 +1,11 @@
+{
+  "name": "askeva-reseller-sitebrand",
+  "version": "1.0.0",
+  "description": "server for sitebranding",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ananthu",
+  "license": "ISC"
+}
