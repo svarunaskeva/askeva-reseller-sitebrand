@@ -11,8 +11,9 @@ const frontendRoot = process.env.NGINX_FRONTEND_ROOT;
 
 const createFrontendConfig = async (reseller, frontendDomain) => {
   console.log(nginxConfigDir);
+  const sanitizedReseller = reseller.replace(/\s+/g, "");
   
-  const frontendConf = path.join(nginxConfigDir, `${reseller}-react`);
+  const frontendConf = path.join(nginxConfigDir, `${sanitizedReseller}-react`);
 
   const frontendConfigContent = `
 server {
@@ -30,13 +31,15 @@ server {
 `;
 
   await fs.writeFile(frontendConf, frontendConfigContent);
-  await fs.symlink(frontendConf, path.join(nginxEnabledDir, `${reseller}-react`));
+  await fs.symlink(frontendConf, path.join(nginxEnabledDir, `${sanitizedReseller}-react`));
 
   return frontendConf;
 };
 
 const createBackendConfig = async (reseller, backendDomain) => {
-  const backendConf = path.join(nginxConfigDir, `direct-${reseller}`);
+  const sanitizedReseller = reseller.replace(/\s+/g, "");
+
+  const backendConf = path.join(nginxConfigDir, `direct-${sanitizedReseller}`);
 
   const backendConfigContent = `
 server {
@@ -55,7 +58,10 @@ server {
 `;
 
   await fs.writeFile(backendConf, backendConfigContent);
-  await fs.symlink(backendConf, path.join(nginxEnabledDir, `direct-${reseller}`));
+  await fs.symlink(
+    backendConf,
+    path.join(nginxEnabledDir, `direct-${sanitizedReseller}`)
+  );
 
   return backendConf;
 };
